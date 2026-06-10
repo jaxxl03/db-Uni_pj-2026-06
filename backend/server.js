@@ -13,6 +13,9 @@ const pool = new Pool({
     ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
 });
 
+// 파일 최상단에 모듈 로드 추가
+const { performance } = require('perf_hooks'); 
+
 // 1. 전체 사용자 목록 및 잔액 조회 API
 app.get('/api/users', async (req, res) => {
     res.json({ status: "healthy", message: "Bank Service API Server is running." });
@@ -102,6 +105,32 @@ app.post('/api/transaction', async (req, res) => {
     } finally {
         // 사용한 클라이언트 반환
         client.release();
+    }
+});
+
+app.get('/api/users/:id/history', async (req, res) => {
+    const userId = req.params.id;
+    try {
+        // 1. 쿼리 실행 직전 측정 시작 시간 기록
+        const startTime = performance.now();
+
+        // 2. 실제 데이터베이스 쿼리 실행 (기존 코드)
+        const result = await pool.query(
+            'SELECT id, type, amount, created_at FROM transactions WHERE user_id = $1 ORDER BY created_at DESC',
+            [userId]
+        );
+
+        // 3. 쿼리 완료 직후 측정 종료 시간 기록 및 계산
+        const endTime = performance.now();
+        const executionTime = (endTime - startTime).toFixed(3);
+
+        // 4. 서버 콘솔(터미널)에 소요 시간 로그 출력
+        console.log(`[벤치마크] 사용자 ${userId} 거래내역 조회 소요 시간: ${executionTime} ms`);
+
+        res.json(result.rows);
+    } catch (error) {
+        console.error('쿼리 실행 오류:', error);
+        res.status(500).send('서버 오류');
     }
 });
 
