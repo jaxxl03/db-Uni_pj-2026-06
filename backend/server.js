@@ -19,12 +19,14 @@ const pool = new Pool({
 const { performance } = require('perf_hooks'); 
 
 // 1. 전체 사용자 목록 및 잔액 조회 API
+// 1. 전체 사용자 목록 및 잔액 조회 API (수정 완료)
 app.get('/api/users', async (req, res) => {
-    res.json({ status: "healthy", message: "Bank Service API Server is running." });
     try {
         const result = await pool.query('SELECT id, username, balance FROM users ORDER BY id ASC');
+        // 정상적인 사용자 배열([ {id:1, username:'Alice', ...} ])을 반환합니다.
         res.json(result.rows);
     } catch (error) {
+        console.error('사용자 조회 오류:', error);
         res.status(500).json({ success: false, message: '사용자 조회 실패' });
     }
 });
