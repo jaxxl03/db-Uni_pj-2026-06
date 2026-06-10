@@ -10,7 +10,9 @@ app.use(express.json());
 // PostgreSQL 연결 설정
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
 // 파일 최상단에 모듈 로드 추가
