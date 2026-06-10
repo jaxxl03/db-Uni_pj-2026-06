@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>간단한 입출금 서비스</title>
+</head>
+<body>
+    <h1>나의 미니 뱅킹</h1>
+    <div>
+        <h2>현재 잔액: <span id="balance">0</span>원</h2>
+    </div>
+    
+    <div>
+        <input type="number" id="amount" placeholder="금액 입력">
+        <button onclick="handleTransaction('deposit')">입금하기</button>
+        <button onclick="handleTransaction('withdraw')">출금하기</button>
+    </div>
+
+    <div>
+    <label for="user-select">계정 선택:</label>
+    <select id="user-select" onchange="loadUserAccountInfo()">
+        </select>
+    </div>
+    
+    <h3>최근 거래 내역</h3>
+    <ul id="history"></ul>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+services:
+  # 백엔드 웹 서비스 설정
+  - type: web
+    name: bank-service-backend
+    env: node
+    buildCommand: npm install
+    startCommand: npm run init-db && npm start
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: bank-db
+          property: connectionString
+      - key: PORT
+        value: 5000
+
+# 데이터베이스(PostgreSQL) 설정
+databases:
+  - name: bank-db
+    plan: free # 무료 플랜 사용 (90일 제한이 있을 수 있음)
