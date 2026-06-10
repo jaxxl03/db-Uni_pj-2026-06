@@ -15,6 +15,7 @@ const pool = new Pool({
 
 // 1. 전체 사용자 목록 및 잔액 조회 API
 app.get('/api/users', async (req, res) => {
+    res.json({ status: "healthy", message: "Bank Service API Server is running." });
     try {
         const result = await pool.query('SELECT id, username, balance FROM users ORDER BY id ASC');
         res.json(result.rows);

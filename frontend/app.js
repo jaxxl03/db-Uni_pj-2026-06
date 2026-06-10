@@ -1,5 +1,5 @@
 // 백엔드가 배포된 주소 (로컬 테스트: http://localhost:5000, 배포 후에는 백엔드 URL로 수정 필요)
-const BACKEND_URL = 'http://localhost:5000'; 
+const BACKEND_URL = 'https://db-uni-pj-2026-06.onrender.com'; 
 
 let currentUserId = null;
 
