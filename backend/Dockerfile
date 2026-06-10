@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 5000
 
 # 서버 실행
-CMD [ "npm", "start" ]
+CMD node init-db.js && npm start
